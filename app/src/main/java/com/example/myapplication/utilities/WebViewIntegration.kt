@@ -12,8 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 
-
-
 class MyWebViewClient : WebViewClient() {
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
@@ -25,9 +23,11 @@ class MyWebViewClient : WebViewClient() {
                     window.jsInterface.postMessage(data);
                 }
             };
-            """, null)
+            """, null
+        )
     }
 }
+
 @Composable
 fun WebViewComponent(
     url: String,

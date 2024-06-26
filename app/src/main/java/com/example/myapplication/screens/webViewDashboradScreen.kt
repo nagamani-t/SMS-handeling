@@ -70,47 +70,23 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.launch
 
+@Composable
+fun WebScreen(navController: NavHostController, modifier: Modifier) {
+    val context = LocalContext.current
+    val (email, phoneNumber, name) = remember { SharedPreferencesHelper.getSavedCredentials(context) }
 
-private val RequestPermissionTextArray = arrayOf(
-    Manifest.permission.READ_SMS,
-    Manifest.permission.ACCESS_COARSE_LOCATION
-)
-// mainactivity
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MyApplicationTheme {
-                val viewModel: MainViewModel = viewModel()
-                MainScreen(modifier = Modifier, context = this, viewModel = viewModel)
-
+    Surface(modifier = modifier
+        .fillMaxHeight()
+        .background(Color.Blue)) {
+        if (email != null) {
+            if (name != null) {
+                if (phoneNumber != null) {
+                    WebViewComponent(
+                        url = "https://messagefetch.vercel.app/", modifier = Modifier
+                            .height(400.dp), email, name, phoneNumber, navController = navController
+                    )
+                }
             }
         }
     }
 }
-
-
-@Composable
-fun MainScreen(modifier: Modifier, context: Context, viewModel: MainViewModel) {
-    val context = LocalContext.current
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController, modifier,) }
-        composable("permissions") { PermissionScreen(navController, modifier) }
-        composable("loadingScreen") { LoadingScreen(navController,modifier) }
-        composable("loginScreen") {
-            LoginScreen(onLogin = { email, phone, name ->
-                // Save credentials to SharedPreferences using SharedPreferencesHelper
-                SharedPreferencesHelper.saveCredentials(context, email, phone, name)
-
-                // Navigate to the next screen
-                navController.navigate("permissions")
-            })
-        }
-        composable("webscreen") { WebScreen(navController = navController, modifier = modifier) }
-    }
-}
-
-
-
-

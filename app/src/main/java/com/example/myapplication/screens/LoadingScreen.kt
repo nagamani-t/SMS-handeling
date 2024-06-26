@@ -44,67 +44,6 @@ import coil.compose.rememberImagePainter
 import kotlinx.coroutines.launch
 import androidx.core.content.edit
 
-
-@Composable
-fun HomeScreen(navController: NavHostController, modifier: Modifier) {
-    val context = LocalContext.current
-    val (email, _, _) = remember { SharedPreferencesHelper.getSavedCredentials(context) }
-    val isFirstLogin = email.isNullOrEmpty()
-    Log.i("email",email.toString())
-
-    Log.i("loginfo", isFirstLogin.toString())
-
-//    if (!isFirstLogin) {
-//        LaunchedEffect(Unit) {
-//            navController.navigate("loadingScreen")
-//        }
-//    }
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 20.dp), verticalArrangement = Arrangement.Bottom
-    ) {
-        Text(
-            text = "Your Finances\n" +
-                    "at One place",
-            fontSize = 46.sp,
-            lineHeight = 54.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = modifier.height(10.dp))
-        Text(
-            text = "Get a bird's-eye view of your finances.\n" +
-                    "Develop healthy financial habits.",
-            fontSize = 16.sp, lineHeight = 18.sp,
-
-            )
-        Spacer(modifier = modifier.height(80.dp))
-        Button(
-            onClick = {
-                if (isFirstLogin) {
-                    navController.navigate("loginScreen")
-                } else {
-                    navController.navigate("loadingScreen")
-                }
-            },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Blue,
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(8.dp),
-            elevation = ButtonDefaults.buttonElevation(8.dp),
-            modifier = Modifier
-                .padding(6.dp)
-                .fillMaxWidth()
-                .height(50.dp)
-        ) {
-            Text("Get Started", fontSize = 16.sp)
-        }
-        Spacer(modifier = modifier.height(70.dp))
-    }
-}
-
-
 @Composable
 fun LoadingScreen(navController: NavHostController, modifier: Modifier) {
     val viewModel: MainViewModel = viewModel()
@@ -214,9 +153,3 @@ fun LoadingScreen(navController: NavHostController, modifier: Modifier) {
         }
     }
 }
-
-
-
-
-
-
